@@ -14,6 +14,7 @@ var argv = yargs
     .option( "r", { alias: "recursive", demand: false, describe: "Recursively convert a directory", type: "boolean"} )
     .option( "e", { alias: "extensions", demand: false, describe: "Convert different file extensions", type: "string",example:'php,html' } )
     .option( "p", { alias: "replace", demand: false, describe: "Overwrite the original files", type: "boolean" } )
+    .option( "n", { alias: "namespace", demand: false, describe: "Tailwind namespace AKA Prefix", type: "string", example:"tw-" } )
     .help( "?" )
     .alias( "?", "help" )
     .epilog( "By Riaz Ali Laskar" )
@@ -21,6 +22,10 @@ var argv = yargs
 
     const arg = argv._[ 0 ];
     const converter = new TailwindConverter();
+
+    if(argv.n) {
+        converter.setNamespace(argv.n);
+    }
     
     // List all files in a directory in Node.js recursively in a synchronous fashion
     function walkSync (dir, filelist = []) {

@@ -8,6 +8,8 @@ module.exports = class TailwindConverter{
     
             this.givenContent = '';
 
+            this.namespace = '';
+
             this.isCssClassesOnly = false;
 
             this.changes = 0;
@@ -69,6 +71,21 @@ module.exports = class TailwindConverter{
     setContent($content)
     {
         this.givenContent = $content;
+
+        return this;
+    }
+
+    /**
+     * Set the Namespace
+     * 
+     * @param string $namespace
+     * 
+     * @return Converter
+     */
+    setNamespace($namespace) 
+    {
+        this.namespace = (typeof $namespace !== 'undefined') ?  $namespace : "";
+        this.namespace = $namespace;
 
         return this;
     }
@@ -685,6 +702,7 @@ module.exports = class TailwindConverter{
      */
     searchAndReplace($_search, $replace)
     {
+        $replace = this.namespace + $replace;
         let $currentContent = this.givenContent;
 
         let $regexStart = !this.isCssClassesOnly ? '(?<start>class\s*=\s*["\'].*?)' : '(?<start>\s*)';

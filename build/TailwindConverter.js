@@ -26,6 +26,8 @@ module.exports = function () {
 
         this.givenContent = '';
 
+        this.namespace = '';
+
         this.isCssClassesOnly = false;
 
         this.changes = 0;
@@ -88,6 +90,23 @@ module.exports = function () {
         key: 'setContent',
         value: function setContent($content) {
             this.givenContent = $content;
+
+            return this;
+        }
+
+        /**
+         * Set the Namespace
+         * 
+         * @param string $namespace
+         * 
+         * @return Converter
+         */
+
+    }, {
+        key: 'setNamespace',
+        value: function setNamespace($namespace) {
+            this.namespace = typeof $namespace !== 'undefined' ? $namespace : "";
+            this.namespace = $namespace;
 
             return this;
         }
@@ -762,6 +781,7 @@ module.exports = function () {
     }, {
         key: 'searchAndReplace',
         value: function searchAndReplace($_search, $replace) {
+            $replace = this.namespace + $replace;
             var $currentContent = this.givenContent;
 
             var $regexStart = !this.isCssClassesOnly ? '(?<start>class\s*=\s*["\'].*?)' : '(?<start>\s*)';
